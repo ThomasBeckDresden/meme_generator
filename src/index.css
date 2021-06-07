@@ -19,10 +19,17 @@ code {
 }
 .lowerCaption {
   position: absolute;
-  bottom: 10px;
+  bottom: 100px;
+
   color: black;
+  text-align: center;
+  width: 50%;
+  margin: 0 auto;
   text-align: center;
 }
 .captionSection {
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

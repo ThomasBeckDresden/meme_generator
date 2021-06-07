@@ -43,7 +43,11 @@ function App() {
           <section className="captionSection">
             <img src={memes.memes[1].url}></img>
             <div className="upperCaption">Upper caption</div>
-            <div className="lowerCaption">Lower caption</div>
+            <div className="lowerCaption">
+              Lower caption
+              <br />
+              kfjdskfjkdsjfksj
+            </div>
           </section>
         )}
       </main>

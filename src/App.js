@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./App.css";
+import domtoimage from "dom-to-image";
 
 function App() {
   const [memes, setMemes] = useState();
   const [captions, setCaptions] = useState({
-    upperCaption: "the upper caption goes here",
-    lowerCaption: "your lower caption goes here",
+    upperCaption: "",
+    lowerCaption: "",
   });
   const [activeMeme, setActiveMeme] = useState();
   const [userUpload, setUserUpload] = useState();
@@ -39,16 +40,20 @@ function App() {
     setActiveMeme(memes[Math.floor(Math.random() * 100)]);
   };
   const handleChange = (e) => {
-    // console.log(e.target.name);
+    console.log(e.key);
+    if (e.key === "Enter") {
+      e.preventDefault();
+      return false;
+    }
     //console.log(e.target.form.upperCaption.value);
     setCaptions({ ...captions, [e.target.name]: e.target.value });
   };
 
   const handleUploadFile = (e) => {
-    console.log("hello");
-    URL.revokeObjectURL(activeMeme.url);
+    //console.log("hello");
+
     const userURL = URL.createObjectURL(e.target.files[0]);
-    console.log(userURL);
+    //console.log(userURL);
     setActiveMeme({ url: userURL });
   };
 
@@ -58,6 +63,20 @@ function App() {
     const fileElem = e.target.form.fileElem;
     fileElem.click();
   };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  };
+  const handleGenerate = (e) => {
+    console.log(e.target.form.memePreview);
+    domtoimage
+      .toJpeg(e.target.form.memePreview, { quality: 0.95 })
+      .then(function (dataUrl) {
+        var link = document.createElement("a");
+        link.download = "my-image-name.jpeg";
+        link.href = dataUrl;
+        link.click();
+      });
+  };
 
   return (
     <div className="mainContainer">
@@ -65,17 +84,21 @@ function App() {
         <h1>I can has memes!</h1>
       </header>
       <main className="generatorContainer">
-        <form>
-          <fieldset onChange={handleChange} className="inputs">
+        <form onSubmit={handleSubmit}>
+          <fieldset className="inputs">
             <input
               placeholder="Upper caption"
               name="upperCaption"
               value={captions.upperCaption}
+              onChange={handleChange}
+              onKeyPress={handleChange}
             ></input>
             <input
               placeholder="Lower caption"
               name="lowerCaption"
               value={captions.lowerCaption}
+              onChange={handleChange}
+              onKeyPress={handleChange}
             ></input>
           </fieldset>
           <fieldset>
@@ -93,16 +116,18 @@ function App() {
             <button name="loadPicture" onClick={handleUploadClick}>
               Load picture
             </button>
-            <button name="generateMeme">Generate Meme</button>
+            <button name="generateMeme" onClick={handleGenerate}>
+              Generate Meme
+            </button>
           </fieldset>
+          {activeMeme && (
+            <fieldset name="memePreview" className="captionSection">
+              <img src={activeMeme.url} className="meme"></img>
+              <div className="upperCaption">{captions.upperCaption}</div>
+              <div className="lowerCaption">{captions.lowerCaption}</div>
+            </fieldset>
+          )}
         </form>
-        {activeMeme && (
-          <section className="captionSection">
-            <img src={activeMeme.url} className="meme"></img>
-            <div className="upperCaption">{captions.upperCaption}</div>
-            <div className="lowerCaption">{captions.lowerCaption}</div>
-          </section>
-        )}
       </main>
     </div>
   );

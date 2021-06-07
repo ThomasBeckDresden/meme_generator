@@ -5,6 +5,8 @@ import "./App.css";
 function App() {
   const [memes, setMemes] = useState();
   const [captions, setCaptions] = useState();
+  const [activeMeme, setActiveMeme] = useState();
+
   useEffect(() => {
     const fetchPictures = async () => {
       try {
@@ -13,6 +15,8 @@ function App() {
         } = await axios.get("https://api.imgflip.com/get_memes");
         console.log(dataImgflip);
         setMemes(dataImgflip);
+        setActiveMeme(dataImgflip.memes[0]);
+        console.log("s");
       } catch (e) {
         console.log(e.message);
       }
@@ -20,28 +24,40 @@ function App() {
     fetchPictures();
   }, []);
 
+  const onChangePicture = () => {
+    setActiveMeme(memes[2]);
+  };
+  const handleChange = (e) => {
+    console.log(e.target.form.upperCaption.value);
+    setCaptions({
+      upper: e.target.form.upperCaption.value,
+      lower: e.target.form.upperCaption.value,
+    });
+  };
   return (
     <div>
       <header>
         <h1>I can has memes!</h1>
       </header>
       <main>
-        <form>
+        <form onChange={handleChange}>
           <fieldset>
             <input placeholder="Upper caption" name="upperCaption"></input>
             <input placeholder="Lower caption" name="lowerCaption"></input>
           </fieldset>
           <fieldset>
-            <button name="changePicture">Change picture</button>
+            <button name="changePicture" onClick={onChangePicture}>
+              Change picture
+            </button>
             <button name="loadPicture">Load picture</button>
             <button name="generateMeme" type="submit">
               Generate Meme
             </button>
           </fieldset>
         </form>
-        {memes && (
+        {activeMeme && (
           <section className="captionSection">
-            <img src={memes.memes[1].url}></img>
+            <img src={activeMeme.url}></img>
             <div className="upperCaption">Upper caption</div>
             <div className="lowerCaption">Lower caption</div>
           </section>

@@ -45,14 +45,11 @@ function App() {
   };
 
   const handleUploadFile = (e) => {
-    if (activeMeme) {
-      URL.revokeObjectURL(userUpload.url);
-    }
-    console.log(e.target.files);
+    console.log("hello");
+    URL.revokeObjectURL(activeMeme.url);
     const userURL = URL.createObjectURL(e.target.files[0]);
     console.log(userURL);
     setActiveMeme({ url: userURL });
-    //URL.revokeObjectURL(userURL);
   };
 
   const handleUploadClick = (e) => {
@@ -63,13 +60,13 @@ function App() {
   };
 
   return (
-    <div>
+    <div className="mainContainer">
       <header>
         <h1>I can has memes!</h1>
       </header>
-      <main>
+      <main className="generatorContainer">
         <form>
-          <fieldset onChange={handleChange}>
+          <fieldset onChange={handleChange} className="inputs">
             <input
               placeholder="Upper caption"
               name="upperCaption"
@@ -101,7 +98,7 @@ function App() {
         </form>
         {activeMeme && (
           <section className="captionSection">
-            <img src={activeMeme.url}></img>
+            <img src={activeMeme.url} className="meme"></img>
             <div className="upperCaption">{captions.upperCaption}</div>
             <div className="lowerCaption">{captions.lowerCaption}</div>
           </section>

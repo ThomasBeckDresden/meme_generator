@@ -10,7 +10,7 @@ function App() {
     lowerCaption: "",
   });
   const [activeMeme, setActiveMeme] = useState();
-  const [userUpload, setUserUpload] = useState();
+  //const [userUpload, setUserUpload] = useState();
 
   useEffect(() => {
     const fetchPictures = async () => {

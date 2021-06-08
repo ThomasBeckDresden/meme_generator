@@ -23,7 +23,7 @@ function App() {
 
         // do sth with dataImgflip
         setMemes(dataImgflip);
-        setActiveMeme(dataImgflip[0]);
+        setActiveMeme(dataImgflip[1]);
       } catch (e) {
         console.log(e.message);
       }
@@ -79,53 +79,86 @@ function App() {
   };
 
   return (
-    <div className="mainContainer">
-      <header>
-        <h1>I can has memes!</h1>
-      </header>
-      <main className="generatorContainer">
+    <div className="mainContainer  justify-content-center">
+      <div className="row justify-content-center">
+        <header className="col-auto">
+          <h1 className="pt-3">I can has memes!</h1>
+        </header>
+      </div>
+      <main className="generatorContainer row justify-content-center">
         <form onSubmit={handleSubmit}>
-          <fieldset className="inputs">
-            <input
-              placeholder="Upper caption"
-              name="upperCaption"
-              value={captions.upperCaption}
-              onChange={handleChange}
-              onKeyPress={handleChange}
-            ></input>
-            <input
-              placeholder="Lower caption"
-              name="lowerCaption"
-              value={captions.lowerCaption}
-              onChange={handleChange}
-              onKeyPress={handleChange}
-            ></input>
-          </fieldset>
-          <fieldset>
-            <button name="changePicture" onClick={onChangePicture}>
-              Change picture
-            </button>
-            <input
-              onChange={handleUploadFile}
-              type="file"
-              name="fileElem"
-              multiple
-              accept="image/*"
-              style={{ display: "none" }}
-            />
-            <button name="loadPicture" onClick={handleUploadClick}>
-              Load picture
-            </button>
-            <button name="generateMeme" onClick={handleGenerate}>
-              Generate Meme
-            </button>
-          </fieldset>
-          {activeMeme && (
-            <fieldset name="memePreview" className="captionSection">
-              <img src={activeMeme.url} className="meme"></img>
-              <div className="upperCaption">{captions.upperCaption}</div>
-              <div className="lowerCaption">{captions.lowerCaption}</div>
+          <div className="row justify-content-center">
+            <fieldset className="inputs col-auto">
+              <input
+                placeholder="Upper caption"
+                name="upperCaption"
+                value={captions.upperCaption}
+                onChange={handleChange}
+                onKeyPress={handleChange}
+                className="col-auto m-3 p-2 border"
+              ></input>
+              <input
+                placeholder="Lower caption"
+                name="lowerCaption"
+                value={captions.lowerCaption}
+                onChange={handleChange}
+                onKeyPress={handleChange}
+                className="col-auto m-3 p-2 border"
+              ></input>
             </fieldset>
+          </div>
+          <div className="row justify-content-center">
+            <fieldset className="col-auto">
+              <button
+                className="col-auto btn-primary rounded fs-3 p-2 m-4"
+                name="changePicture"
+                onClick={onChangePicture}
+              >
+                Change picture
+              </button>
+              <input
+                onChange={handleUploadFile}
+                type="file"
+                name="fileElem"
+                multiple
+                accept="image/*"
+                style={{ display: "none" }}
+              />
+              <button
+                className="col-auto btn-primary rounded fs-3 p-2 m-4"
+                name="loadPicture"
+                onClick={handleUploadClick}
+              >
+                Load picture
+              </button>
+              <button
+                className="col-auto btn-primary rounded fs-3 p-2 m-4"
+                name="generateMeme"
+                onClick={handleGenerate}
+              >
+                Generate Meme
+              </button>
+            </fieldset>
+          </div>
+          {activeMeme && (
+            <div className="row justify-content-center">
+              <fieldset
+                name="memePreview"
+                className="captionSection justify-content-center col-auto "
+              >
+                <img
+                  src={activeMeme.url}
+                  className="meme"
+                  alt="meme not here?"
+                />
+                <div className="row justify-content-center upperCaption memeText ">
+                  <p>{captions.upperCaption}</p>
+                </div>
+                <div className="lowerCaption memeText">
+                  <p>{captions.lowerCaption}</p>
+                </div>
+              </fieldset>
+            </div>
           )}
         </form>
       </main>
